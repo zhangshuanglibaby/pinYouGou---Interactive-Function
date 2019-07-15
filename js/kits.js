@@ -1,42 +1,19 @@
-/**
- * 用于把很多重复使用的代码，进行封装，到时候直接使用
- * 
- */
+//头部的购物车的数量计算
+//头部购物车的数量是多个页面都要使用的,把他单独的抽离做一个公共文件,在每个需要他的地方引入他就行
 
- /**
-  * @description 读取存储在localStorage里面的数组的
-  * @param {string} key 存储数据使用的键
-  * @return {Array} 返回一个数组，如果不存在，返回空数组
-  */
-function loadData(key){
-  var str = localStorage.getItem(key);
-  var arr = JSON.parse(str);
-  if(!arr){
-    arr = [];
-  }
-  return arr;
-}
+$(() => {
+    //创建一个对象
+    let kits = {};
+    //封装一个根据键获取数组的方法
+    kits.loadArray = function(key) {
+        let str = localStorage.getItem(key);
+        let arr;
+        if(str === null){
+            arr = [];
+        }else {
+            arr = JSON.parse(str);
+        }
+        return arr;
+    }
 
-/**
- * @description 用于将数组存储到localStorage里面的方法
- * @param {string} key 存储使用的键
- * @param {Array} arr 要存储的数组数据
- * @return {undefined}
- */
-function saveData(key,arr){
-  var json = JSON.stringify(arr);
-  localStorage.setItem(key, json);
-}
-
-
-// 封装计算购物车里面的商品总量的代码
-function total(){
-  // 加载所有的数据
-  var arr = loadData('shopCart');
-  // 计算总件数
-  var total = 0;
-  arr.forEach(function(e){
-    total += e.number;
-  });
-  return total;
-}
+})
